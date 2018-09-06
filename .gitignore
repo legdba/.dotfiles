@@ -1,0 +1,7 @@
+*.tmp
+*.swp
+*.bap
+*.bkp
+~*
+.vim/bundle/
+.config/nvim/plugged/
