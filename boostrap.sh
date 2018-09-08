@@ -4,7 +4,7 @@
 DOTFILES_DIR=$(dirname $0)
 
 # Files to ignore while LSing .dotfile/ for files to simlink into $HOME
-LS_IGNORE='-I . -I .. -I *.md -I *.sh -I *.txt -I *.swp -I *.bak -I *.bkp -I *.old -I ~* -I *.tmp -I .gitignore -I .git'
+LS_IGNORE='-I . -I .. -I *.md -I LICENSE -I NOTICE -I *.sh -I *.txt -I *.swp -I *.bak -I *.bkp -I *.old -I ~* -I *.tmp -I .gitignore -I .git'
 
 # Check if a logout is needed for applying changes
 LOGOUTNEEDED="0"
@@ -188,24 +188,6 @@ EOF
   fi
 }
 
-function gitdefaults() {
-    printf "setting git config ..."
-
-    # Forces newly cloned/inited repos to bet set with a local user name and
-    # email, avoiding the default one to leak...
-    git config --global user.useConfigOnly true || die 1
-
-    # Keep credentials cached for 24h
-    git config --global credentials.helper 'cache --timeout=86400' || die 1
-    # unsecure: git config --global credentials.helper store
-
-    # Auto-sign commits by default
-    # need conditional includes: git config --global commit.gpgsign true || die 1
-
-    echo " success"
-}
-
-
 # Fix premissions on self, often messed up by the lack of a properly set umaks
 # prior to running that script and loading out
 function fixselfperms() {
@@ -226,7 +208,39 @@ echo " success";
 EOF
 }
 
+function gitdefaults() {
+  printf "setting git config ..."
+
+  # Forces newly cloned/inited repos to bet set with a local user name and
+  # email, avoiding the default one to leak...
+  git config --global user.useConfigOnly true || die 1
+
+  # Keep credentials cached for 24h
+  git config --global credentials.helper 'cache --timeout=86400' || die 1
+  # unsecure: git config --global credentials.helper store
+
+  # Auto-sign commits by default
+  # need conditional includes: git config --global commit.gpgsign true || die 1
+
+  echo " success"
+}
+
+# Check the distribution is supported
+function checkdistro() {
+  printf "checking distro ..."
+  DISTRO=$(lsb_release -d | awk -F '\t' '{print $2}')
+  if [ "$(echo $DISTRO | grep -c 'Ubuntu 18.')" == "1" ]; then
+    echo " ok ($DISTRO)"
+  elif [ "$(echo $DISTRO | grep -c 'Debian GNU/Linux 9.')" == "1" ]; then
+    echo " ok ($DISTRO)"
+  else
+    echo " unsupported ($DISTRO)"
+    die 1 "error: require Ubuntu 18.x or Debian 9.5, found $DISTRO"
+  fi
+}
+
 umask 022
+checkdistro
 acquiresudo
 fixselfperms
 installpkgs
@@ -237,6 +251,5 @@ installnvimplug
 installlocalbins
 fixz
 [[ "$ONWSL" ]] && fixwslmount
-gitdefaults
 forcezpluginstall
 [[ "$LOGOUTNEEDED" == "1" ]] && echo "LOGOUT NEEDED BY SOME CHANGES"
