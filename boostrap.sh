@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory of .dotfile (hosting that script)
-DOTFILES_DIR=$(dirname $0 | xargs readlink -f)
+DOTFILES_DIR=$(dirname "$0" | xargs readlink -f)
 
 # Files to ignore while LSing .dotfile/ for files to simlink into $HOME
 LS_IGNORE='-I . -I .. -I *.md -I LICENSE -I NOTICE -I *.sh -I *.txt -I *.swp
@@ -18,8 +18,8 @@ function die() {
   local rc=$1
   shift
   local msg=$*
-  [ -z "$msg" ] || echo $msg >&2
-  exit  $rc
+  [ -z "$msg" ] || echo "$msg" >&2
+  exit  "$rc"
 }
 
 # Install a set of packages
@@ -54,6 +54,7 @@ function installpkgs() {
         openjdk-11-jdk \
         gpg \
         gnupg2 \
+        shellcheck \
         > /dev/null \
         || die 1
     echo " success"
@@ -62,11 +63,11 @@ function installpkgs() {
 # Default shell to ZSH
 function defaulttozsh() {
     printf "setting zsh default shell ..."
-    DEFAULT_SHELL=$(getent passwd $LOGNAME | cut -d: -f7)
+    DEFAULT_SHELL=$(getent passwd "$LOGNAME" | cut -d: -f7)
     if [[ "$DEFAULT_SHELL" == "/usr/bin/zsh" ]]; then
         echo " success"
     else
-        sudo chsh -s $(which zsh) $USER || die 1 # need sudo as chsh usually prompts for user's password. $USER is passed through sudo.
+        sudo chsh -s "$(which zsh)" "$USER" || die 1 # need sudo as chsh usually prompts for user's password. $USER is passed through sudo.
         echo " success"
     fi
 }
@@ -80,7 +81,7 @@ function defaulttozsh() {
 function installdocker() {
     printf "installing docker.io ..."
     sudo apt-get install -y docker.io > /dev/null || die 1
-    sudo usermod -aG docker $USER || die 1 # -q=2 does not disable enough output
+    sudo usermod -aG docker "$USER" || die 1 # -q=2 does not disable enough output
     echo " success"
 
     # Enable docker daemon only on true Linux, not WSL
@@ -104,46 +105,46 @@ function linkfile() {
     local fn=$1 # the target file in .dotfiles/
     local ln=$2 # the link in $HOME/ pointing to $fn
 
-    printf "linking $ln -> $fn ..."
-    if [ -e $ln ]; then
+    printf "linking %s -> %s ..." "$ln" "$fn"
+    if [ -e "$ln" ]; then
         # $ln exists already
-        if [ -L $ln ];then
+        if [ -L "$ln" ];then
             # it's a symlink
-            if [ "$(readlink -f $ln)" == "$(readlink --canonicalize $fn)" ]; then
+            if [ "$(readlink -f \"$ln\")" == "$(readlink --canonicalize \"$fn\")" ]; then
                 # already linked to the right target
                 echo " found"
             else
                 # linked to a different target
-                rm -f $ln || die 1
-                ln -s $fn $ln || die 1
+                rm -f "$ln" || die 1
+                ln -s "$fn" "$ln" || die 1
                 echo " relinked"
             fi
         else
             # it's not a symlink, conflict
-            mv $ln $ln.pre_dotfiles || die 1
-            ln -s $fn $ln || die 1
+            mv "$ln" "$ln.pre_dotfiles" || die 1
+            ln -s "$fn" "$ln" || die 1
             echo " updated"
         fi
     else
         # does not exist, link
-        ln -s $fn $ln || die 1
+        ln -s "$fn" "$ln" || die 1
         echo " success"
     fi
 }
 
 # Link all files in .dotfiles from $HOME
 function setuplinks() {
-    for fn in $(ls $LS_IGNORE -a $DOTFILES_DIR) ; do
+    for fn in $(ls "$LS_IGNORE" -a "$DOTFILES_DIR") ; do
         fn="${DOTFILES_DIR}/${fn}"
-        ln=${HOME}/$(basename $fn)
-        linkfile $fn $ln
+        ln="${HOME}/$(basename \"$fn\")"
+        linkfile "$fn" "$ln"
     done
 }
 
 # Install vim-plug for nvim
 function installnvimplug() {
     printf "installing vim-plug for nvim ..."
-    curl -sfLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    curl -sfLo "${HOME}/.local/share/nvim/site/autoload/plug.vim" --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     echo " success"
     printf "installing nvim plugins ..."
     nvim +PlugInstall +qall
@@ -151,12 +152,12 @@ function installnvimplug() {
 }
 
 function installlocalbins() {
-    printf "creating ${HOME}/bin ..."
+    printf "creating %s/bin ..." "$HOME"
     if [ -d "${HOME}/.bin" ]; then
         echo " found"
     else
-        mkdir -p ${HOME}/.bin || die 1
-        chmod 750 ${HOME}/.bin || die 1
+        mkdir -p "${HOME}/.bin" || die 1
+        chmod 750 "${HOME}/.bin" || die 1
         echo " success"
     fi
 }
@@ -196,9 +197,9 @@ EOF
 # Fix premissions on self, often messed up by the lack of a properly set umaks
 # prior to running that script and loading out
 function fixselfperms() {
-    find $DOTFILES_DIR -type f | xargs chmod 640 || die 1
-    find $DOTFILES_DIR -type f -name "*.sh" | xargs chmod 750 || die 1
-    find $DOTFILES_DIR -type d | xargs chmod 750 || die 1
+    find "$DOTFILES_DIR" -type f -print0 | xargs -0 chmod 640 || die 1
+    find "$DOTFILES_DIR" -type f -name "*.sh" -print0 | xargs -0 chmod 750 || die 1
+    find "$DOTFILES_DIR" -type d -print0 | xargs -0 chmod 750 || die 1
 }
 
 function forcezpluginstall() {
@@ -234,9 +235,9 @@ function gitdefaults() {
 function checkdistro() {
   printf "checking distro ..."
   DISTRO=$(lsb_release -d | awk -F '\t' '{print $2}')
-  if [ "$(echo $DISTRO | grep -c 'Ubuntu 18.')" == "1" ]; then
+  if [ "$(echo \"$DISTRO\" | grep -c 'Ubuntu 18.')" == "1" ]; then
     echo " ok ($DISTRO)"
-  elif [ "$(echo $DISTRO | grep -c 'Debian GNU/Linux 9.')" == "1" ]; then
+  elif [ "$(echo \"$DISTRO\" | grep -c 'Debian GNU/Linux 9.')" == "1" ]; then
     echo " ok ($DISTRO)"
   else
     echo " unsupported ($DISTRO)"
@@ -248,10 +249,10 @@ function checkdistro() {
 # Does not use the general linking mechanism as ~/.gnupg/ contains dynamic
 # files that shall not be under .dotfiles/
 function setgnupg() {
-  printf "creating ${HOME}/.gnupg ..."
-  if [ ! -d ${HOME}/.gnupg ]; then
-    mkdir -p ${HOME}/.gnupg || die 1
-    chmod 700 ${HOME}/.gnupg || die 1
+  printf "creating %s/.gnupg ..." "$HOME"
+  if [ ! -d "${HOME}/.gnupg" ]; then
+    mkdir -p "${HOME}/.gnupg" || die 1
+    chmod 700 "${HOME}/.gnupg" || die 1
     echo " success"
   else
     echo " found"
@@ -263,7 +264,7 @@ function setgnupg() {
     pkill gpg-agent || die 1
     echo " success"
   fi
-  linkfile $DOTFILES_DIR/.gnupg/gpg.conf ${HOME}/.gnupg/gpg.conf || die 1
+  linkfile "$DOTFILES_DIR/.gnupg/gpg.conf" "${HOME}/.gnupg/gpg.conf" || die 1
 }
 
 
