@@ -4,9 +4,7 @@
 DOTFILES_DIR=$(dirname "$0" | xargs readlink -f)
 
 # Files to ignore while LSing .dotfile/ for files to simlink into $HOME
-LS_IGNORE='-I . -I .. -I *.md -I LICENSE -I NOTICE -I *.sh -I *.txt -I *.swp
-           -I *.bak -I *.bkp -I *.old -I ~* -I *.tmp -I .gitignore -I .git
-           -I .gnupg'
+LS_IGNORE='-I . -I .. -I *.md -I LICENSE -I NOTICE -I *.sh -I *.txt -I *.swp -I *.bak -I *.bkp -I *.old -I ~* -I *.tmp -I .gitignore -I .git -I .gnupg'
 
 # Check if a logout is needed for applying changes
 LOGOUTNEEDED="0"
@@ -33,6 +31,7 @@ function installpkgs() {
     echo " success"
     printf "installing packages ..."
     sudo apt-get install -y \
+        rng-tools \
         zsh \
         curl \
         dnsutils \
@@ -110,7 +109,7 @@ function linkfile() {
         # $ln exists already
         if [ -L "$ln" ];then
             # it's a symlink
-            if [ "$(readlink -f \"$ln\")" == "$(readlink --canonicalize \"$fn\")" ]; then
+            if [ "$(readlink -f "$ln")" == "$(readlink --canonicalize "$fn")" ]; then
                 # already linked to the right target
                 echo " found"
             else
@@ -134,9 +133,9 @@ function linkfile() {
 
 # Link all files in .dotfiles from $HOME
 function setuplinks() {
-    for fn in $(ls "$LS_IGNORE" -a "$DOTFILES_DIR") ; do
+    for fn in $(ls $LS_IGNORE -a "$DOTFILES_DIR") ; do
         fn="${DOTFILES_DIR}/${fn}"
-        ln="${HOME}/$(basename \"$fn\")"
+        ln="${HOME}/$(basename "$fn")"
         linkfile "$fn" "$ln"
     done
 }
@@ -235,9 +234,9 @@ function gitdefaults() {
 function checkdistro() {
   printf "checking distro ..."
   DISTRO=$(lsb_release -d | awk -F '\t' '{print $2}')
-  if [ "$(echo \"$DISTRO\" | grep -c 'Ubuntu 18.')" == "1" ]; then
+  if [ "$(echo "$DISTRO" | grep -c 'Ubuntu 18.')" == "1" ]; then
     echo " ok ($DISTRO)"
-  elif [ "$(echo \"$DISTRO\" | grep -c 'Debian GNU/Linux 9.')" == "1" ]; then
+  elif [ "$(echo "$DISTRO" | grep -c 'Debian GNU/Linux 9.')" == "1" ]; then
     echo " ok ($DISTRO)"
   else
     echo " unsupported ($DISTRO)"
