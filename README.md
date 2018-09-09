@@ -13,13 +13,13 @@ excelents [holman](https://github.com/holman/dotfiles/) or
 
 ## How To Use It?
 
-Clone to `$HOME` then
 ```shell
-.dotfiles/bootstrap.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/legdba/.dotfiles/master/install.sh)"
 ```
 
 It will:
 
+1. Clone the repo into `$HOME/.dotfiles` and call ` ~/.dotfiles/bootstrap.sh`
 1. Install all common dev tools I need (curl, make, python, etc.) plus Docker.
 1. Change default shell to zsh
 1. Link all dotfiles from $HOME (any existing file will be silently renamed)
@@ -34,6 +34,12 @@ It will:
 1. Change the current shell to ZSH, install Zplug stuff
 1. Returns on a configured ZSH prompt, ready to go. (note that the 1st install
    on WSL will require a logout for the C: mount change to take effect)
+
+To re-run simply do
+
+```shell
+~/.dotfiles/bootstrap.sh
+```
 
 The `boostrap.sh` script is idempotent: it can be re-run at anytime to reset the
 system.
