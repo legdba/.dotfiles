@@ -53,6 +53,7 @@ function installpkgs() {
         openjdk-11-jdk \
         gpg \
         gnupg2 \
+        pinentry-tty \
         shellcheck \
         > /dev/null \
         || die 1
@@ -264,6 +265,7 @@ function setgnupg() {
     echo " success"
   fi
   linkfile "$DOTFILES_DIR/.gnupg/gpg.conf" "${HOME}/.gnupg/gpg.conf" || die 1
+  linkfile "$DOTFILES_DIR/.gnupg/gpg-agent.conf" "${HOME}/.gnupg/gpg-agent.conf" || die 1
 }
 
 

@@ -37,8 +37,11 @@ fi
 # Load all Zplug things
 zplug load
 
+# Required by GPG
+export GPG_TTY=$(tty)
+
 # Preferred editor for local and remote sessions
-VISUAL='nvim'
+export VISUAL='nvim'
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR=$VISUAL
 else
