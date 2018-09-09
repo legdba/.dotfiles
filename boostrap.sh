@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory of .dotfile (hosting that script)
-DOTFILES_DIR=$(dirname $0)
+DOTFILES_DIR=$(dirname $0 | xargs readlink -f)
 
 # Files to ignore while LSing .dotfile/ for files to simlink into $HOME
 LS_IGNORE='-I . -I .. -I *.md -I LICENSE -I NOTICE -I *.sh -I *.txt -I *.swp
