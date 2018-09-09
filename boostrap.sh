@@ -4,7 +4,9 @@
 DOTFILES_DIR=$(dirname $0)
 
 # Files to ignore while LSing .dotfile/ for files to simlink into $HOME
-LS_IGNORE='-I . -I .. -I *.md -I LICENSE -I NOTICE -I *.sh -I *.txt -I *.swp -I *.bak -I *.bkp -I *.old -I ~* -I *.tmp -I .gitignore -I .git'
+LS_IGNORE='-I . -I .. -I *.md -I LICENSE -I NOTICE -I *.sh -I *.txt -I *.swp
+           -I *.bak -I *.bkp -I *.old -I ~* -I *.tmp -I .gitignore -I .git
+           -I .gnupg'
 
 # Check if a logout is needed for applying changes
 LOGOUTNEEDED="0"
@@ -36,6 +38,7 @@ function installpkgs() {
         dnsutils \
         wget \
         direnv \
+        expect \
         zip unzip \
         jq \
         dos2unix \
@@ -49,6 +52,8 @@ function installpkgs() {
         cmake \
         graphviz \
         openjdk-11-jdk \
+        gpg \
+        gnupg2 \
         > /dev/null \
         || die 1
     echo " success"
@@ -146,7 +151,7 @@ function installnvimplug() {
 }
 
 function installlocalbins() {
-    printf "creating ${HOME}/bin"
+    printf "creating ${HOME}/bin ..."
     if [ -d "${HOME}/.bin" ]; then
         echo " found"
     else
@@ -239,6 +244,29 @@ function checkdistro() {
   fi
 }
 
+# Link ~/.gnupg/gpg.conf to .dotfiles/.gnupg/gpg.conf
+# Does not use the general linking mechanism as ~/.gnupg/ contains dynamic
+# files that shall not be under .dotfiles/
+function setgnupg() {
+  printf "creating ${HOME}/.gnupg ..."
+  if [ ! -d ${HOME}/.gnupg ]; then
+    mkdir -p ${HOME}/.gnupg || die 1
+    chmod 700 ${HOME}/.gnupg || die 1
+    echo " success"
+  else
+    echo " found"
+  fi
+  if [ "$(pgrep gpg-agent | wc -l)" == "1" ]; then
+    # stop agent as it would prevent changes in ~/.gnupg
+    # it will restart on its own when needed
+    printf "stopping gpg-agent ..."
+    pkill gpg-agent || die 1
+    echo " success"
+  fi
+  linkfile $DOTFILES_DIR/.gnupg/gpg.conf ${HOME}/.gnupg/gpg.conf || die 1
+}
+
+
 umask 022
 checkdistro
 acquiresudo
@@ -249,6 +277,7 @@ installdocker
 setuplinks
 installnvimplug
 installlocalbins
+setgnupg
 fixz
 [[ "$ONWSL" ]] && fixwslmount
 forcezpluginstall
