@@ -56,6 +56,23 @@ LOCALALIASES=~/.aliases.local
 # On WSL connect to Docker over TCP as sockets won't work
 [[ "$ONWSL" == "1" ]] && export DOCKER_HOST="tcp://0.0.0.0:2375"
 
+# SSH Agent, according to some advices from
+# http://rabexc.org/posts/pitfalls-of-ssh-agents
+SSH_AGENT_CACHE_TTL="28800" # 8h, should be enough for a work dat
+ssh-add -l &>/dev/null
+if [[ "$?" == "2" ]]; then
+  test -r ~/.ssh-agent && eval "$(<~/.ssh-agent)" >/dev/null
+  ssh-add -l &>/dev/null
+  if [[ "$?" == "2" ]]; then
+    (umask 066; ssh-agent -t $SSH_AGENT_CACHE_TTL > ~/.ssh-agent)
+    eval "$(<~/.ssh-agent)" >/dev/null
+    ssh-add
+  fi
+fi
+
+# Emulate ~/.bash_logout
+#trap '. $HOME/.zsh_logout; exit' 0
+
 # Local zshrc
 LOCALZSHRC=~/.zshrc.local
 [[ -f $LOCALZSHRC ]] && source $LOCALZSHRC

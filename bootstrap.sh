@@ -277,6 +277,17 @@ function createdotssh() {
   else
     echo " found"
   fi
+
+  printf "configuring ssh key caching ..."
+  if [ "$(grep -s AddKeysToAgent "${HOME}/.ssh/config"; echo $?)" == "0" ]; then
+    tee -a "${HOME}/.ssh/config" > /dev/null <<EOF || die 1
+AddKeysToAgent yes
+EOF
+    echo " success"
+  else
+    echo " found"
+  fi
+
 }
 
 umask 022
