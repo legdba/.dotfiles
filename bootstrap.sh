@@ -268,6 +268,16 @@ function setgnupg() {
   linkfile "$DOTFILES_DIR/.gnupg/gpg-agent.conf" "${HOME}/.gnupg/gpg-agent.conf" || die 1
 }
 
+function createdotssh() {
+  printf "creating %s ..." "$HOME/.ssh"
+  if [ ! -d "$HOME/.ssh" ]; then
+    mkdir -p "$HOME/.ssh" || die 1
+    chmod 700 "$HOME/.ssh" || die 1
+    echo " success"
+  else
+    echo " found"
+  fi
+}
 
 umask 022
 checkdistro
@@ -281,6 +291,8 @@ installnvimplug
 installlocalbins
 setgnupg
 fixz
+createdotssh
 [[ "$ONWSL" ]] && fixwslmount
 forcezpluginstall
+# DON'T ADD LINES BELOW HERE AS THE FUNCTION ABOVE CREATES A NEW SHELL
 [[ "$LOGOUTNEEDED" == "1" ]] && echo "LOGOUT NEEDED BY SOME CHANGES"
