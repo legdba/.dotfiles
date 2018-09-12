@@ -73,6 +73,9 @@ fi
 # Emulate ~/.bash_logout
 #trap '. $HOME/.zsh_logout; exit' 0
 
+# Setup direnv
+eval "$(direnv hook zsh)"
+
 # Local zshrc
 LOCALZSHRC=~/.zshrc.local
 [[ -f $LOCALZSHRC ]] && source $LOCALZSHRC
