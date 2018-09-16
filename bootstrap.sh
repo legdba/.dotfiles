@@ -55,6 +55,7 @@ function installpkgs() {
         gnupg2 \
         pinentry-tty \
         shellcheck \
+        awscli \
         > /dev/null \
         || die 1
     echo " success"
