@@ -22,6 +22,8 @@ Plug 'dracula/vim'
 "Plug 'scrooloose/syntastic'
 "Plug 'Yggdroot/indentLine'
 "Plug 'avelino/vim-bootstrap-updater'
+Plug 'hashivim/vim-terraform'
+Plug 'hashivim/vim-packer'
 call plug#end()
 
 
