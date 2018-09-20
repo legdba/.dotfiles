@@ -45,7 +45,23 @@ The `boostrap.sh` script is idempotent: it can be re-run at anytime to reset the
 system.
 
 
-# License
+## TODO
+
+* Maybe migrate to GNU stow for simlinks management
+
+
+## Key Mapping
+
+TMUX
+
+| Keys                 | Action                                               |
+|----------------------|------------------------------------------------------|
+| Ctrl-h/j/k/l         | Move to plane/split in tmux/vi                       |
+| Ctrl-b Ctrl-h/j/k/l  | Resize planes in tmux                                |
+| Ctrl-b [             | Edit mode                                            |
+
+
+## License
 
 This software is under Apache 2.0 license.
 ```
