@@ -43,6 +43,9 @@ function installpkgs() {
         dos2unix \
         golang \
         python3 \
+        python3-pip \
+        python3-setuptools \
+        tmux \
         vim \
         neovim \
         make \
@@ -291,6 +294,12 @@ EOF
 
 }
 
+function installpipenv() {
+  printf "installing pipenv ..."
+  pip3 -q install --user pipenv || die 1
+  echo " success"
+}
+
 umask 022
 checkdistro
 acquiresudo
@@ -304,7 +313,9 @@ installlocalbins
 setgnupg
 fixz
 createdotssh
+installpipenv
 [[ "$ONWSL" ]] && fixwslmount
-forcezpluginstall
 # DON'T ADD LINES BELOW HERE AS THE FUNCTION ABOVE CREATES A NEW SHELL
+forcezpluginstall
 [[ "$LOGOUTNEEDED" == "1" ]] && echo "LOGOUT NEEDED BY SOME CHANGES"
+

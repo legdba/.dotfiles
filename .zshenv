@@ -4,8 +4,15 @@ export LANGUAGE=en
 export LC_ALL="${LANG}"
 
 # Add ~/.bin to PATH
-if [ -d "$HOME/bin" ] ; then
-  PATH="$PATH:$HOME/.bin"
+HOMEBIN=$HOME/.bin
+if [ -d "$HOMEBIN" ] ; then
+  PATH="$PATH:$HOMEBIN"
+fi
+
+# Add ~/.local/bin to PATH, in front of PATH, for pipenv to work
+HOMELOCALBIN=$HOME/.local/bin
+if [ -d "$HOMELOCALBIN" ] ; then
+  PATH="$HOMELOCALBIN:$PATH"
 fi
 
 # Need to detect WSL as some stuff is missing (no systemd, no dockerd, etc.)
