@@ -76,8 +76,6 @@ function defaulttozsh() {
     fi
 }
 
-
-
 # Install docker
 # Installs docker.io instead of docker-ce. While is lags a bit behind upstream
 # it's officially supported and tested on the OS. Unless bleeding edge features
