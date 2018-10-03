@@ -48,6 +48,7 @@ function installpkgs() {
         tmux \
         vim \
         neovim \
+        exuberant-ctags \
         make \
         automake \
         autoconf \

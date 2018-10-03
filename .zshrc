@@ -1,4 +1,4 @@
-# Check if runningon WSL
+# Check if running on WSL
 ONWSL=$(grep -c Microsoft /proc/sys/kernel/osrelease)
 
 # Secure umask
@@ -27,6 +27,7 @@ zplug "plugins/z", from:oh-my-zsh
 zplug "zsh-users/zsh-completions"
 zplug "robbyrussell/oh-my-zsh", use:"lib/*.zsh"
 zplug "themes/robbyrussell", from:oh-my-zsh, as:theme
+#zplug "themes/refined", from:oh-my-zsh, as:theme
 #zplug "dracula/zsh", from:github, as:theme
 
 # Install packages that have not been installed yet

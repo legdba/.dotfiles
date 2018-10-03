@@ -8,24 +8,27 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "Plug 'scrooloose/nerdtree'
 "Plug 'xuyuanp/nerdtree-git-plugin'
 "Plug 'tpope/vim-commentary'
-"Plug 'tpope/vim-fugitive'
-Plug 'dracula/vim'
+"Plug 'dracula/vim'
 "Plug 'ctrlpvim/ctrlp.vim'
-"Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
-"Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 "Plug 'vim-scripts/grep.vim'
 "Plug 'vim-scripts/CSApprox'
 "Plug 'bronson/vim-trailing-whitespace'
 "Plug 'Raimondi/delimitMate'
-"Plug 'majutsushi/tagbar'
-"Plug 'scrooloose/syntastic'
+Plug 'majutsushi/tagbar'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
+Plug 'scrooloose/syntastic'
 "Plug 'Yggdroot/indentLine'
 "Plug 'avelino/vim-bootstrap-updater'
 Plug 'hashivim/vim-terraform'
 Plug 'hashivim/vim-packer'
 Plug 'christoomey/vim-tmux-navigator' " seamless vim/tmux navigation
 call plug#end()
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Seamless vim/tmux navigation
@@ -36,6 +39,7 @@ nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDtree config
@@ -55,12 +59,11 @@ nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sensible default config to make life easier
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " UI improvments
 set hidden
 set number                   " show line number
 set showcmd                  " show command in bottom bar
-set cursorline               " highlight current line
+"set cursorline               " highlight current line
 set showmatch                " highlight matching brace
 set laststatus=2             " window will always have a status line
 syntax on                    " enable syntax coloring
@@ -80,13 +83,14 @@ filetype plugin indent on
 set tabstop=2       " number of visual spaces per TAB
 set softtabstop=2   " number of spaces in tab when editing
 set shiftwidth=2    " number of spaces to use for autoindent
-set expandtab       " tabs are space
+set expandtab       " tabs are spaces
 set autoindent
 set copyindent      " copy indent from the previous line
+
 " Make needs hard tabs
 autocmd BufRead,BufNewFile make noexpandtab
 
-" Make tabs and trailing spaces visible
+" Make tabs and trailing-spaces visible
 set list
 set listchars=tab:>-,trail:-
 
@@ -94,15 +98,17 @@ set listchars=tab:>-,trail:-
 set path+=**
 set wildmenu
 
-" Remove those pesky temp files
+" Remove pesky swap files but make sure backups are made
 set nobackup
+set nowritebackup
 set noswapfile
 
 " Sane encoding
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
-set bomb
+set nobomb " BOM causes ASCII files not to work with /bin/env and other CLI
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Training mode ;)
@@ -117,4 +123,22 @@ vnoremap <Down> <Nop>
 vnoremap <Left> <Nop>
 vnoremap <Right> <Nop>
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Make the statusline usefull
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" https://github.com/airblade/vim-gitgutter
+set updatetime=100
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Syntactic
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 

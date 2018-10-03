@@ -61,6 +61,20 @@ TMUX
 | Ctrl-b [             | Edit mode                                            |
 
 
+## Fonts
+
+Best fonts:
+
+1. Consolas (commercial, available with MS Office)
+2. Incolsolata (free)
+
+
+## Extended glyphs
+
+Several shell prompts or CLI tools make use of glyphs part of some true type
+fronts but usually not part of popular monospace fonts.
+
+
 ## License
 
 This software is under Apache 2.0 license.

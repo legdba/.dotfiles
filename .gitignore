@@ -3,6 +3,7 @@
 *.bap
 *.bkp
 ~*
+*~
 .vim/bundle/
 .config/nvim/plugged/
 .config/direnv/
