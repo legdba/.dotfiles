@@ -65,6 +65,7 @@ set showmatch                " highlight matching brace
 set laststatus=2             " window will always have a status line
 syntax on                    " enable syntax coloring
 set textwidth=80             " 80-chars line wrapping (activate with v ... + gq)
+set colorcolumn=80           " visual marker
 
 " Colorscheme.
 " Will not exits on 1st call to PluginInstall -> need a catch
