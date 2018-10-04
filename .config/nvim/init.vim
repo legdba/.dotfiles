@@ -8,7 +8,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "Plug 'scrooloose/nerdtree'
 "Plug 'xuyuanp/nerdtree-git-plugin'
 "Plug 'tpope/vim-commentary'
-"Plug 'dracula/vim'
+Plug 'dracula/vim'
 "Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
@@ -88,7 +88,7 @@ set expandtab       " tabs are spaces
 set autoindent
 set copyindent      " copy indent from the previous line
 
-" Make needs hard tabs
+" "Make" needs hard tabs
 autocmd BufRead,BufNewFile make noexpandtab
 
 " Make tabs and trailing-spaces visible
