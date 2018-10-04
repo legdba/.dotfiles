@@ -8,7 +8,7 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "Plug 'scrooloose/nerdtree'
 "Plug 'xuyuanp/nerdtree-git-plugin'
 "Plug 'tpope/vim-commentary'
-"Plug 'dracula/vim'
+Plug 'dracula/vim'
 "Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
@@ -63,12 +63,13 @@ nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
 set hidden
 set number                   " show line number
 set showcmd                  " show command in bottom bar
-"set cursorline               " highlight current line
+set cursorline               " highlight current line
 set showmatch                " highlight matching brace
 set laststatus=2             " window will always have a status line
 syntax on                    " enable syntax coloring
 set textwidth=80             " 80-chars line wrapping (activate with v ... + gq)
 set colorcolumn=80           " visual marker
+set lazyredraw               " Improves scrolling over ssh, esp. with cursorline
 
 " Colorscheme.
 " Will not exits on 1st call to PluginInstall -> need a catch
@@ -87,7 +88,7 @@ set expandtab       " tabs are spaces
 set autoindent
 set copyindent      " copy indent from the previous line
 
-" Make needs hard tabs
+" "Make" needs hard tabs
 autocmd BufRead,BufNewFile make noexpandtab
 
 " Make tabs and trailing-spaces visible
@@ -129,6 +130,7 @@ vnoremap <Right> <Nop>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " https://github.com/airblade/vim-gitgutter
 set updatetime=100
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntactic

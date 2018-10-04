@@ -65,14 +65,19 @@ TMUX
 
 Best fonts:
 
-1. Consolas (commercial, available with MS Office)
-2. Incolsolata (free)
+1. _DejaVu Sans Mono_: nice font with wiiide support for utf8 chars often used
+   as shell promp markers. It has a dotted zero instead of a slashed one.
+2. _Consolas_: very nice commercial font installed with MS Win and Office; lacks
+   wide utf8 support (if it had it woul dbe better than DejaVu).
+3. _Incolsolata_: very nice free font, good both on screen and paper, but as for
+   Consolas it does not have a wide utf8 support.
 
 
 ## Extended glyphs
 
-Several shell prompts or CLI tools make use of glyphs part of some true type
-fronts but usually not part of popular monospace fonts.
+DejaVu has a whide utf8 support for most glyphs shell prompts and CLI uses.
+Consolas and Incolsolata don't however and could typically require substitution
+characters to be defined into the console SW.
 
 
 ## License
