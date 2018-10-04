@@ -8,7 +8,8 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 "Plug 'scrooloose/nerdtree'
 "Plug 'xuyuanp/nerdtree-git-plugin'
 "Plug 'tpope/vim-commentary'
-Plug 'dracula/vim'
+"Plug 'dracula/vim'
+Plug 'altercation/vim-colors-solarized'
 "Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 "Plug 'vim-airline/vim-airline-themes'
@@ -73,8 +74,9 @@ set lazyredraw               " Improves scrolling over ssh, esp. with cursorline
 
 " Colorscheme.
 " Will not exits on 1st call to PluginInstall -> need a catch
+set background=dark
 try
-    colorscheme dracula
+    colorscheme solarized
 catch /^Vim\%((\a\+)\)\=:E185/
     colorscheme darkblue
 endtry
