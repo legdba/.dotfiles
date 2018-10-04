@@ -80,6 +80,11 @@ Consolas and Incolsolata don't however and could typically require substitution
 characters to be defined into the console SW.
 
 
+## Terminal Integration
+
+* _Cmder_: set the _Solarized (Luke Maciak)_ theme.
+
+
 ## License
 
 This software is under Apache 2.0 license.

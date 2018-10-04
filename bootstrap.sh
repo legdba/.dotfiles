@@ -313,7 +313,7 @@ setgnupg
 fixz
 createdotssh
 installpipenv
-[[ "$ONWSL" ]] && fixwslmount
+[[ "$ONWSL" == "1" ]] && fixwslmount
 # DON'T ADD LINES BELOW HERE AS THE FUNCTION ABOVE CREATES A NEW SHELL
 forcezpluginstall
 [[ "$LOGOUTNEEDED" == "1" ]] && echo "LOGOUT NEEDED BY SOME CHANGES"
