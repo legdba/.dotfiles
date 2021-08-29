@@ -238,13 +238,13 @@ function gitdefaults() {
 function checkdistro() {
   printf "checking distro ..."
   DISTRO=$(lsb_release -d | awk -F '\t' '{print $2}')
-  if [ "$(echo "$DISTRO" | grep -c 'Ubuntu 18.')" == "1" ]; then
+  if [ "$(echo "$DISTRO" | grep -c 'Ubuntu 20.')" == "1" ]; then
     echo " ok ($DISTRO)"
-  elif [ "$(echo "$DISTRO" | grep -c 'Debian GNU/Linux 9.')" == "1" ]; then
-    echo " ok ($DISTRO)"
+  #elif [ "$(echo "$DISTRO" | grep -c 'Debian GNU/Linux 9.')" == "1" ]; then
+  #  echo " ok ($DISTRO)"
   else
     echo " unsupported ($DISTRO)"
-    die 1 "error: require Ubuntu 18.x or Debian 9.5, found $DISTRO"
+    die 1 "error: require Ubuntu 20.x, found $DISTRO"
   fi
 }
 
