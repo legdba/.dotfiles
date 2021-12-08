@@ -9,8 +9,9 @@ LS_IGNORE='-I . -I .. -I *.md -I LICENSE -I NOTICE -I *.sh -I *.txt -I *.swp -I 
 # Check if a logout is needed for applying changes
 LOGOUTNEEDED="0"
 
-# Need to detect WSL as some stuff is missing (no systemd, no dockerd
-ONWSL="$(grep -c Microsoft /proc/sys/kernel/osrelease)"
+# Need to detect WSL2 as docker deamon is installed on the host instead of the guest
+ONWSL2="$(uname -r | grep -c WSL2)"
+
 
 function die() {
   local rc=$1
@@ -89,9 +90,8 @@ function installdocker() {
 
     # Enable docker daemon only on true Linux, not WSL
     printf "enabling docker daemon ..."
-    if [ "$ONWSL" == "1" ]; then
-        # On WSL
-        echo " skipping (WSL)"
+    if [ "$ONWSL2" == "1" ]; then
+	echo " skipping (WSL v2)"
     else
         # On a pure Linux
         sudo systemctl -q start docker || die 1
@@ -180,22 +180,6 @@ function fixz {
     touch ~/.z
 }
 
-function fixwslmount() {
-  printf "updating /mnt/c to /c ..."
-  if [[ -f /etc/wsl.conf ]]; then
-    echo " skip (/etc/wsl.conf already exists)"
-  else
-    echo | sudo tee /etc/wsl.conf > /dev/null <<EOF
-[automount]
-enabled = true
-root = /
-options = "metadata,umask=22,fmask=11"
-mountFsTab = false
-EOF
-    LOGOUTNEEDED="1"
-    echo " done"
-  fi
-}
 
 # Fix premissions on self, often messed up by the lack of a properly set umaks
 # prior to running that script and loading out
@@ -238,13 +222,11 @@ function gitdefaults() {
 function checkdistro() {
   printf "checking distro ..."
   DISTRO=$(lsb_release -d | awk -F '\t' '{print $2}')
-  if [ "$(echo "$DISTRO" | grep -c 'Ubuntu 18.')" == "1" ]; then
-    echo " ok ($DISTRO)"
-  elif [ "$(echo "$DISTRO" | grep -c 'Debian GNU/Linux 9.')" == "1" ]; then
+  if [ "$(echo "$DISTRO" | grep -c 'Ubuntu 20.')" == "1" ]; then
     echo " ok ($DISTRO)"
   else
     echo " unsupported ($DISTRO)"
-    die 1 "error: require Ubuntu 18.x or Debian 9.5, found $DISTRO"
+    die 1 "error: requires Ubuntu 20.x, found $DISTRO"
   fi
 }
 
@@ -313,7 +295,6 @@ setgnupg
 fixz
 createdotssh
 installpipenv
-[[ "$ONWSL" == "1" ]] && fixwslmount
 # DON'T ADD LINES BELOW HERE AS THE FUNCTION ABOVE CREATES A NEW SHELL
 forcezpluginstall
 [[ "$LOGOUTNEEDED" == "1" ]] && echo "LOGOUT NEEDED BY SOME CHANGES"
