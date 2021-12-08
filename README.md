@@ -27,10 +27,7 @@ It will:
 1. Set sane GIT default (i.e. for any newly cloned/created repo to be set with
    explicit local user.name and user.email in order to avoid multi-account
    mistakes when using global default...)
-1. Handle WSL special cases:
-  1. `/mnt/c` is re-mounted to `/c` for Docker mount to work
-  2. set Docker client to connect to the Deamon with TCP instead of sockets;
-     [until Docker for Win supports AF_UNIX](https://github.com/docker/for-win/issues/1954)
+1. Handle WSL2 docker case: the deamon is not installed
 1. Change the current shell to ZSH, install Zplug stuff
 1. Returns on a configured ZSH prompt, ready to go. (note that the 1st install
    on WSL will require a logout for the C: mount change to take effect)
