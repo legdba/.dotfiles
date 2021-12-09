@@ -8,3 +8,4 @@
 .config/nvim/plugged/
 .config/direnv/
 .config/nvim/.netrwhist
+.config/configstore/
