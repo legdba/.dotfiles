@@ -10,7 +10,7 @@ excelents [holman](https://github.com/holman/dotfiles/) or
 [thoughtbot](https://github.com/thoughtbot/dotfiles) repos instead.
 
 
-## How To Use It?
+## How To Use?
 
 ```shell
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/legdba/.dotfiles/master/install.sh)"
@@ -19,14 +19,10 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/legdba/.dotfiles/master/in
 It will:
 
 1. Clone the repo into `$HOME/.dotfiles` and call ` ~/.dotfiles/bootstrap.sh`
-1. Install all common dev tools I need (curl, make, python, etc.) plus Docker.
+1. Install a buch of basic usefull packages
 1. Change default shell to zsh
-1. Link all dotfiles from $HOME (any existing file will be silently renamed)
+1. Link all `~/.dotfiles/.*.symlink` from `$HOME` (without the `.symlink` suffix)
    for `.zshrc`, `.zshenv`, neovim, etc.
-1. Set sane GIT default (i.e. for any newly cloned/created repo to be set with
-   explicit local user.name and user.email in order to avoid multi-account
-   mistakes when using global default...)
-1. Handle WSL2 docker case: the deamon is not installed
 1. Change the current shell to ZSH, install Zplug stuff
 1. Returns on a configured ZSH prompt, ready to go. (note that the 1st install
    on WSL will require a logout for the C: mount change to take effect)
@@ -39,46 +35,6 @@ To re-run simply do
 
 The `boostrap.sh` script is idempotent: it can be re-run at anytime to reset the
 system.
-
-
-## TODO
-
-* Maybe migrate to GNU stow for simlinks management
-
-
-## Key Mapping
-
-TMUX
-
-| Keys                 | Action                                               |
-|----------------------|------------------------------------------------------|
-| Ctrl-h/j/k/l         | Move to plane/split in tmux/vi                       |
-| Ctrl-b Ctrl-h/j/k/l  | Resize planes in tmux                                |
-| Ctrl-b [             | Edit mode                                            |
-
-
-## Fonts
-
-Best fonts:
-
-1. _DejaVu Sans Mono_: nice font with wiiide support for utf8 chars often used
-   as shell promp markers. It has a dotted zero instead of a slashed one.
-2. _Consolas_: very nice commercial font installed with MS Win and Office; lacks
-   wide utf8 support (if it had it woul dbe better than DejaVu).
-3. _Incolsolata_: very nice free font, good both on screen and paper, but as for
-   Consolas it does not have a wide utf8 support.
-
-
-## Extended glyphs
-
-DejaVu has a whide utf8 support for most glyphs shell prompts and CLI uses.
-Consolas and Incolsolata don't however and could typically require substitution
-characters to be defined into the console SW.
-
-
-## Terminal Integration
-
-* _Cmder_: set the _Solarized (Luke Maciak)_ theme.
 
 
 ## License

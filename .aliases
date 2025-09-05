@@ -1,10 +1,9 @@
-alias vi='nvim'
-alias vim='nvim'
+alias vim='vi'
 alias ls='ls --color=tty -h'
 alias l='ls -l'
 alias la='ls -lA'
 alias ll='ls -l'
-alias lsa='ls -la'
+alias lsa='ls -lA'
 alias mkdcd='take' # mkdir and cd altogether
 alias gpg='gpg --pinentry-mode loopback'
 alias gpg2='gpg2 --pinentry-mode loopback'
