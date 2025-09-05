@@ -31,6 +31,7 @@ function installpkgs() {
         wget \
         jq \
         dos2unix \
+        htop \
         || die 1
     echo "installing packages ... success"
 }

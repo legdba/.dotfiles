@@ -7,3 +7,4 @@ alias lsa='ls -lA'
 alias mkdcd='take' # mkdir and cd altogether
 alias gpg='gpg --pinentry-mode loopback'
 alias gpg2='gpg2 --pinentry-mode loopback'
+alias top='htop'
