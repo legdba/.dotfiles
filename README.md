@@ -3,8 +3,7 @@
 My dotfiles setup.
 
 THIS IS ONLY FOR PERSONAL USE ON MY DEVELOPMENT ENVIRONMENTS. NOT TESTED
-BESIDE MY OWN ENVS. ONLY SUPPORTS UBUNTU 20.04 BOTH ON NATIVE
-LINUX AND WSL2. USE AT YOUR OWN RISKS. YOU'VE BEEN WARNED.
+BESIDE MY OWN ENV. USE AT YOUR OWN RISKS. YOU'VE BEEN WARNED.
 
 If you're looking for a base dotfiles repo you should have a look at the
 excelents [holman](https://github.com/holman/dotfiles/) or

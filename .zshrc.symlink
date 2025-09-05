@@ -1,12 +1,6 @@
-# Check if running on WSL
-ONWSL=$(grep -c Microsoft /proc/sys/kernel/osrelease)
-
 # Secure umask
 # (before installing all zplug stuff to avoid "insecure files" issue...)
 umask 022
-
-# https://github.com/Microsoft/WSL/issues/1887
-[[ "$ONWSL" == "1" ]] && unsetopt BG_NICE
 
 # Install zplug if needed
 if [[ ! -d ~/.zplug ]]; then
@@ -42,35 +36,10 @@ zplug load
 # Required by GPG
 export GPG_TTY=$(tty)
 
-# Preferred editor for local and remote sessions
-export VISUAL='nvim'
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR=$VISUAL
-else
-  export EDITOR=$VISUAL
-fi
-
 # Aliases
 [[ -f ~/.aliases ]] && source ~/.aliases
 LOCALALIASES=~/.aliases.local
 [[ -f $LOCALALIASES ]] && source $LOCALALIASES
-
-# On WSL connect to Docker over TCP as sockets won't work
-[[ "$ONWSL" == "1" ]] && export DOCKER_HOST="tcp://0.0.0.0:2375"
-
-# SSH Agent, according to some advices from
-# http://rabexc.org/posts/pitfalls-of-ssh-agents
-SSH_AGENT_CACHE_TTL="28800" # 8h, should be enough for a work dat
-ssh-add -l &>/dev/null
-if [[ "$?" == "2" ]]; then
-  test -r ~/.ssh-agent && eval "$(<~/.ssh-agent)" >/dev/null
-  ssh-add -l &>/dev/null
-  if [[ "$?" == "2" ]]; then
-    (umask 066; ssh-agent -t $SSH_AGENT_CACHE_TTL > ~/.ssh-agent)
-    eval "$(<~/.ssh-agent)" >/dev/null
-    ssh-add
-  fi
-fi
 
 # Emulate ~/.bash_logout
 #trap '. $HOME/.zsh_logout; exit' 0
@@ -81,4 +50,3 @@ eval "$(direnv hook zsh)"
 # Local zshrc
 LOCALZSHRC=~/.zshrc.local
 [[ -f $LOCALZSHRC ]] && source $LOCALZSHRC
-

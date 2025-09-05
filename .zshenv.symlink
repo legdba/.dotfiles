@@ -14,10 +14,3 @@ HOMELOCALBIN=$HOME/.local/bin
 if [ -d "$HOMELOCALBIN" ] ; then
   PATH="$HOMELOCALBIN:$PATH"
 fi
-
-# Need to detect WSL as some stuff is missing (no systemd, no dockerd, etc.)
-ONWSL="$(grep -c Microsoft /proc/sys/kernel/osrelease)"
-if [[ "$ONWSL" == "1" ]] ; then
-  # https://github.com/Microsoft/WSL/issues/1887
-  unsetopt BG_NICE
-fi
