@@ -32,6 +32,7 @@ function installpkgs() {
         jq \
         dos2unix \
         htop \
+        nvim \
         || die 1
     echo "installing packages ... success"
 }
@@ -89,10 +90,23 @@ function linkfile() {
 function setuplinks() {
     echo "########################"
     echo "Symlinks creating/verification ... "
-    for i in $(ls -a $DOTFILES_DIR/.*.symlink) ; do
+    # Link any xxx.symlink from $HOME
+    for i in $(ls $DOTFILES_DIR/.*.symlink) ; do
         fn=$(realpath ${i})
         ln=~/$(basename $fn | sed 's/\(.*\)\.symlink/\1/g' )
-        echo link "$ln" "==>" "$fn"
+        linkfile "$fn" "$ln"
+    done
+    # Link any .config/* from $HOME/.config
+    DOTCONFIG=$(realpath ~/.config)
+    if [ ! -d $DOTCONFIG ]; then
+      mkdir $DOTCONFIG
+      echo "$DOTCONFIG created"
+    else
+      echo "$DOTCONFIG found"
+    fi
+    for i in $(ls $DOTFILES_DIR/.config/) ; do
+        fn="$DOTFILES_DIR/.config/${i}"
+        ln="$DOTCONFIG/${i}"
         linkfile "$fn" "$ln"
     done
     echo "Symlinks creating/verification ... ok"

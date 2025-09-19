@@ -1,4 +1,4 @@
-alias vim='vi'
+alias vim='nvim'
 alias ls='ls --color=tty -h'
 alias l='ls -l'
 alias la='ls -lA'
