@@ -8,3 +8,4 @@ alias mkdcd='take' # mkdir and cd altogether
 alias gpg='gpg --pinentry-mode loopback'
 alias gpg2='gpg2 --pinentry-mode loopback'
 alias top='htop'
+alias update="echo '=== DNF update ===' && sudo dnf update --refresh -y && echo && echo '=== Flatpack update ===' && flatpak update -y"
